@@ -3,8 +3,11 @@
 		<div class="head">
 			<h1 class="title">Карточки</h1>
 		</div>
-		<div class="body" v-if="columnsData">
-			<cards-list v-for="(column, key) in columnsData" :key="`column-item-${key}`" v-bind="column"></cards-list>
+		<div
+v-if="columnsData" class="body">
+			<cards-list
+v-for="(column, key) in columnsData" :key="`column-item-${key}`"
+v-bind="column"></cards-list>
 		</div>
 	</div>
 </template>

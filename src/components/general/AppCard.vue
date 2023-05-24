@@ -3,17 +3,30 @@
 		<div class="head">
 			<h3 class="title">{{ title }}</h3>
 			<div class="icon">
-				<app-icon name="note-edit" width="14px" height="14px"></app-icon>
+				<app-icon
+					name="note-edit"
+					width="14px"
+					height="14px"></app-icon>
 			</div>
 			<div class="icon">
-				<app-icon name="garbage" width="14px" height="14px"></app-icon>
+				<app-icon
+					name="garbage"
+					width="14px"
+					height="14px"
+				></app-icon>
 			</div>
 			<div class="icon">
-				<app-icon name="overflow-menu" width="16px" height="16px"></app-icon>
+				<app-icon
+					name="overflow-menu"
+					width="16px"
+					height="16px"
+				></app-icon>
 			</div>
 		</div>
 		<div class="body">
-			<p class="text">Балл: <span>5</span></p>
+			<p class="text">
+				Балл: <span>{{ score }}</span>
+			</p>
 		</div>
 		<div class="bottom">
 			<span v-if="project" class="label">{{ project }}</span>
@@ -60,7 +73,7 @@ const props = defineProps<IProps>()
 			margin-left: auto;
 			width: 16px;
 			height: 16px;
-			cursor: context-menu;
+			cursor: move;
 		}
 	}
 

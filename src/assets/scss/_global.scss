@@ -8,6 +8,10 @@ html {
 	color: $second;
 }
 
+* {
+	box-sizing: border-box;
+}
+
 h1 {
 	margin: 0;
 	font-size: 32px;

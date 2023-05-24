@@ -11,7 +11,8 @@
 	width: 100%;
 
 	.view {
-		max-width: 1440px;
+		max-width: 1920px;
+		width: 100%;
 		margin: 0 auto;
 		padding: 170px 290px;
 	}
