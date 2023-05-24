@@ -1,15 +1,37 @@
 html {
 	font-family: 'Inter', sans-serif;
 	font-style: normal;
-	font-weight: 400;
 	font-size: 12px;
 	line-height: 15px;
+	font-weight: 400;
+	background-color: #F5F5F5;
 	color: $second;
 }
 
 h1 {
-	font-weight: 700;
+	margin: 0;
 	font-size: 32px;
 	line-height: 39px;
+	font-weight: 700;
 	color: $primary;
+}
+
+h2 {
+	margin: 0;
+	font-size: 15px;
+	line-height: 18px;
+	font-weight: 600;
+	color: $primary;
+}
+
+h3 {
+	margin: 0;
+	font-size: 14px;
+	line-height: 17px;
+	font-weight: 600;
+	color: $primary;
+}
+
+ul {
+	padding: 0;
 }

@@ -1,5 +1,5 @@
 <template>
-	<svg aria-hidden="true" class="icon">
+	<svg aria-hidden="true" class="app-icon-component">
 		<use :href="symbolId" :fill="color" />
 	</svg>
 </template>
@@ -16,7 +16,7 @@ interface IProps {
 }
 const props = withDefaults(defineProps<IProps>(), {
 	prefix: "icon",
-	color: "#00000",
+	color: "#71747C",
 	width: "20px",
 	height: "20px",
 })
@@ -25,7 +25,7 @@ const symbolId = computed(() => `#${props.prefix}-${props.name}`)
 </script>
 
 <style lang="scss" scoped>
-.icon {
+.app-icon-component {
 	display: inline-block;
 	width: v-bind(width);
 	height: v-bind(height);

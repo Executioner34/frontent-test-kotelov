@@ -1,7 +1,19 @@
-<script setup lang="ts"></script>
-
 <template>
-	<h1>Hello</h1>
+	<main class="main">
+		<router-view class="view"></router-view>
+	</main>
 </template>
 
-<style lang="scss" scoped></style>
+<script setup lang="ts"></script>
+
+<style lang="scss" scoped>
+.main {
+	width: 100%;
+
+	.view {
+		max-width: 1440px;
+		margin: 0 auto;
+		padding: 170px 290px;
+	}
+}
+</style>
