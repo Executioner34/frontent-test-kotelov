@@ -20,15 +20,13 @@
 				></app-icon>
 			</div>
 		</div>
-		<ul v-if="cards.length >= 1" class="body">
-			<app-card
-				v-for="card in cards"
-				:key="card.id"
-				:title="card.title"
-				:score="card.score"
-				:project="card.project"
-			></app-card>
-		</ul>
+		<div v-if="cards.length >= 1" class="body">
+			<draggableComponent v-model="cards" item-key="id" group="project" class="list" @change="cardMoveHandler">
+				<template #item="{ element }">
+					<app-card :title="element.title" :score="element.score" :project="element.project"></app-card>
+				</template>
+			</draggableComponent>
+		</div>
 		<div v-else class="cards-empty">
 			<p class="empty-text">Список пуст</p>
 		</div>
@@ -43,6 +41,7 @@ import { computed, onMounted, ref } from "vue"
 import { useCardsList } from "../../../store"
 import AppIcon from "../../general/AppIcon.vue"
 import AppCard from "../../general/AppCard.vue"
+import draggableComponent from "vuedraggable"
 
 interface IProps {
 	name: string
@@ -71,6 +70,12 @@ const sortedCards = (sort: string) => {
 	isSortedIconActive.value = sort
 	sort === "up" ? cards.value.sort((a, b) => a.score - b.score) : cards.value.sort((a, b) => b.score - a.score)
 }
+
+const cardMoveHandler = ({ added }) => {
+	if (added) {
+		cardsStore.updateStageInCard(added)
+	}
+}
 </script>
 
 <style lang="scss" scoped>
@@ -87,9 +92,14 @@ const sortedCards = (sort: string) => {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+		margin-bottom: 12px;
 	}
 
 	.body {
+		margin-bottom: 12px;
+	}
+
+	.list {
 		display: flex;
 		flex-direction: column;
 		gap: 8px;

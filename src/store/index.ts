@@ -62,6 +62,10 @@ export const useCardsList = defineStore("cardsList", {
 			}
 			this.cardsData = items
 		},
+		updateStageInCard({ element, newIndex }: { element: ICard; newIndex: number }) {
+			const cardInd = this.cardsData.findIndex((item) => item.id === element.id)
+			this.cardsData[cardInd].stage = useColumnsList().columnsData[newIndex].code
+		},
 	},
 })
 
