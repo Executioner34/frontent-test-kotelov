@@ -20,10 +20,12 @@ const onClick = () => emit("click")
 	justify-content: center;
 	align-items: center;
 	width: 100%;
+	height: 32px;
 	padding: 8px 20px;
 	border-radius: 4px;
 	border-color: transparent;
 	background-color: $blue;
+	white-space: nowrap;
 	color: $white;
 }
 </style>

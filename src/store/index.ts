@@ -11,21 +11,21 @@ export const useColumnsList = defineStore("columnsList", {
 		columnsData: [] as Array<IColumn>,
 	}),
 	actions: {
-		fetchColumnsMock() {
-			return columnsListData
+		async fetchColumnsMock(): Promise<Array<IColumn>> {
+			return await new Promise((resolve) => {
+				setTimeout(() => resolve(columnsListData as Array<IColumn>), 2000)
+			})
 		},
-		getColumnsList() {
+		async getColumnsList() {
 			const items = getItem("columnsList") as Array<IColumn>
 			if (items === null) {
 				try {
-					setTimeout(() => {
-						const result = this.fetchColumnsMock()
-						this.columnsData = result
-						setItem("columnsList", result)
-						return
-					}, 2000)
+					const result = await this.fetchColumnsMock()
+					this.columnsData = result
+					setItem("columnsList", result)
+					return
 				} catch (e) {
-					console.log(e)
+					console.error(e)
 				}
 			}
 			this.columnsData = items
@@ -41,23 +41,24 @@ export const useCardsList = defineStore("cardsList", {
 		getCards: (state) => {
 			return (code: string) => state.cardsData.filter((card) => card.stage === code)
 		},
+		lastIdInCardData: (state) => state.cardsData.sort((a, b) => b.id - a.id)[0].id + 1,
 	},
 	actions: {
-		fetchCardsMock() {
-			return cardsListData as Array<ICard>
+		async fetchCardsMock(): Promise<Array<ICard>> {
+			return await new Promise((resolve) => {
+				setTimeout(() => resolve(cardsListData as Array<ICard>), 2000)
+			})
 		},
-		getCardsList() {
+		async getCardsList() {
 			const items = getItem("cardsList") as Array<ICard>
 			if (items === null) {
 				try {
-					setTimeout(() => {
-						const result = this.fetchCardsMock()
-						this.cardsData = result
-						setItem("cardsList", result)
-						return
-					}, 2000)
+					const result = await this.fetchCardsMock()
+					this.cardsData = result
+					setItem("cardsList", result)
+					return
 				} catch (e) {
-					console.log(e)
+					console.error(e)
 				}
 			}
 			this.cardsData = items
@@ -65,6 +66,14 @@ export const useCardsList = defineStore("cardsList", {
 		updateStageInCard({ element, newIndex }: { element: ICard; newIndex: number }) {
 			const cardInd = this.cardsData.findIndex((item) => item.id === element.id)
 			this.cardsData[cardInd].stage = useColumnsList().columnsData[newIndex].code
+		},
+		async putCardsList() {
+			return await new Promise((resolve) => {
+				return setTimeout(() => {
+					setItem("cardsList", this.cardsData)
+					resolve(true)
+				}, 2000)
+			})
 		},
 	},
 })
@@ -74,21 +83,21 @@ export const useProjectsList = defineStore("projectsList", {
 		projectsData: [] as Array<IProject>,
 	}),
 	actions: {
-		fetchProjectsMock() {
-			return projectListData as Array<IProject>
+		async fetchProjectsMock(): Promise<Array<IProject>> {
+			return await new Promise((resolve) => {
+				setTimeout(() => resolve(projectListData as Array<IProject>), 2000)
+			})
 		},
-		getProjectsList() {
+		async getProjectsList() {
 			const items = getItem("projectsList") as Array<IProject>
 			if (items === null) {
 				try {
-					setTimeout(() => {
-						const result = this.fetchProjectsMock()
-						this.projectsData = result
-						setItem("projectsList", result)
-						return
-					}, 2000)
+					const result = await this.fetchProjectsMock()
+					this.projectsData = result
+					setItem("projectsList", result)
+					return
 				} catch (e) {
-					console.log(e)
+					console.error(e)
 				}
 			}
 			this.projectsData = items

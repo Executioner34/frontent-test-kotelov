@@ -3,24 +3,13 @@
 		<div class="head">
 			<h3 class="title">{{ title }}</h3>
 			<div class="icon">
-				<app-icon
-					name="note-edit"
-					width="14px"
-					height="14px"></app-icon>
+				<app-icon name="note-edit" width="14px" height="14px" @click="onClickEdit"></app-icon>
 			</div>
 			<div class="icon">
-				<app-icon
-					name="garbage"
-					width="14px"
-					height="14px"
-				></app-icon>
+				<app-icon name="garbage" width="14px" height="14px" @click="onClickDelete"></app-icon>
 			</div>
 			<div class="icon">
-				<app-icon
-					name="overflow-menu"
-					width="16px"
-					height="16px"
-				></app-icon>
+				<app-icon name="overflow-menu" width="16px" height="16px"></app-icon>
 			</div>
 		</div>
 		<div class="body">
@@ -31,19 +20,62 @@
 		<div class="bottom">
 			<span v-if="project" class="label">{{ project }}</span>
 		</div>
+		<app-modal
+			v-model:is-show="isShowModal"
+			:id-card="idCard"
+			:projects-list="projectsList"
+			:project="project"
+			:score="score"
+			:title-card="title"
+			:stage="stage"
+			@edit-card="editModalHandler"
+		></app-modal>
 	</div>
 </template>
 
 <script setup lang="ts">
 import AppIcon from "./AppIcon.vue"
+import AppModal from "./AppModal.vue"
+import { ref } from "vue"
+import { ICard } from "../../types"
 
 interface IProps {
-	title?: string
-	score?: number
-	project?: boolean | string
+	idCard: number
+	title: string
+	score: number
+	project: boolean | string
+	projectsList: Array<{ name: string; code: string }>
+	stage: string
+	element: object
+}
+
+interface IEmits {
+	(e: "edit", card: ICard): ICard
+	(e: "delete", card: ICard, isDeleting: boolean): ICard
 }
 
 const props = defineProps<IProps>()
+const emit = defineEmits<IEmits>()
+
+const isShowModal = ref(false)
+
+const onClickEdit = () => (isShowModal.value = true)
+const onClickDelete = () => {
+	console.log(props.idCard)
+	const card: ICard = {
+		title: props.title,
+		score: props.score,
+		id: props.idCard,
+		project: props.project,
+		stage: props.stage,
+	}
+	emit("delete", card, true)
+}
+
+const editModalHandler = (card: ICard) => {
+	console.log(card.id)
+	emit("edit", card)
+}
 </script>
 
 <style lang="scss" scoped>

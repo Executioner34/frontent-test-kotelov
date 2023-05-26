@@ -10,6 +10,7 @@ export type ICard = {
 	title: string
 	stage: string
 	project?: boolean | string
+	score: number
 }
 
 export type IProject = {

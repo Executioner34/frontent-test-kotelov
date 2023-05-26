@@ -21,9 +21,19 @@
 			</div>
 		</div>
 		<div v-if="cards.length >= 1" class="body">
-			<draggableComponent v-model="cards" item-key="id" group="project" class="list" @change="cardMoveHandler">
+			<draggableComponent v-model="cards" item-key="id" group="project" class="list" @change="moveCardHandler">
 				<template #item="{ element }">
-					<app-card :title="element.title" :score="element.score" :project="element.project"></app-card>
+					<app-card
+						:title="element.title"
+						:score="element.score"
+						:project="element.project"
+						:projects-list="projectList"
+						:id-card="element.id"
+						:stage="name"
+						:element="element"
+						@edit="cardEditHandler"
+						@delete="cardEditHandler"
+					></app-card>
 				</template>
 			</draggableComponent>
 		</div>
@@ -31,17 +41,26 @@
 			<p class="empty-text">Список пуст</p>
 		</div>
 		<div class="bottom">
-			<button class="btn">Добавить</button>
+			<button class="btn" @click="isModalVisible = true">Добавить</button>
 		</div>
+		<app-modal
+			v-model:isShow="isModalVisible"
+			:id-card="lastIdCard"
+			:stage="name"
+			:projects-list="projectList"
+			@edit-card="createCardHandler"
+		></app-modal>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue"
-import { useCardsList } from "../../../store"
+import { computed, onMounted, reactive, ref } from "vue"
+import { useCardsList, useProjectsList } from "../../../store"
 import AppIcon from "../../general/AppIcon.vue"
 import AppCard from "../../general/AppCard.vue"
 import draggableComponent from "vuedraggable"
+import AppModal from "../../general/AppModal.vue"
+import { ICard } from "../../../types"
 
 interface IProps {
 	name: string
@@ -71,10 +90,35 @@ const sortedCards = (sort: string) => {
 	sort === "up" ? cards.value.sort((a, b) => a.score - b.score) : cards.value.sort((a, b) => b.score - a.score)
 }
 
-const cardMoveHandler = ({ added }) => {
+const isModalVisible = ref(false)
+const projectList = useProjectsList().projectsData.map((item) => ({
+	name: item.name,
+	code: item.code,
+}))
+const lastIdCard = cardsStore.lastIdInCardData || 1
+
+const createCardHandler = (card) => {
+	cards.value.push(card)
+	cardsStore.$patch((state) => {
+		state.cardsData.push(card)
+	})
+}
+
+const moveCardHandler = ({ added }) => {
 	if (added) {
 		cardsStore.updateStageInCard(added)
 	}
+}
+
+const cardEditHandler = (card: ICard, isDeleting?: boolean) => {
+	const newCards = [...cards.value]
+	const indCardInState = cardsStore.cardsData.findIndex((item) => item.id === card.id)
+	const indCardInCards = newCards.findIndex((item) => item.id === card.id)
+	isDeleting ? newCards.splice(indCardInCards, 1) : newCards.splice(indCardInCards, 1, reactive(card))
+	cardsStore.$patch((state) => {
+		isDeleting ? state.cardsData.splice(indCardInState, 1) : state.cardsData.splice(indCardInState, 1, card)
+	})
+	cards.value = newCards
 }
 </script>
 
