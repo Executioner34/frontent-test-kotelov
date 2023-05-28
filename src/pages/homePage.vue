@@ -3,11 +3,17 @@
 		<div class="head">
 			<h1 class="title">Карточки</h1>
 			<div class="wrapper">
-				<app-button @click="saveChanges">Сохранить изменения</app-button>
+				<app-button @click="saveChanges"
+					>Сохранить изменения</app-button
+				>
 			</div>
 		</div>
 		<div class="body">
-			<cards-list v-for="(column, key) in columnsData" :key="`column-item-${key}`" v-bind="column"></cards-list>
+			<cards-list
+				v-for="(column, key) in columnsData"
+				:key="`column-item-${key}`"
+				v-bind="column"
+			/>
 		</div>
 	</div>
 </template>
@@ -25,7 +31,11 @@ const projectsState = useProjectsList()
 const columnsData = ref([])
 
 onMounted(async () => {
-	await Promise.all([columnsState.getColumnsList(), projectsState.getProjectsList(), cardsState.getCardsList()])
+	await Promise.all([
+		columnsState.getColumnsList(),
+		projectsState.getProjectsList(),
+		cardsState.getCardsList(),
+	])
 	columnsData.value = columnsState.columnsData
 })
 

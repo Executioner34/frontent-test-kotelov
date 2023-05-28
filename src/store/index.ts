@@ -13,7 +13,10 @@ export const useColumnsList = defineStore("columnsList", {
 	actions: {
 		async fetchColumnsMock(): Promise<Array<IColumn>> {
 			return await new Promise((resolve) => {
-				setTimeout(() => resolve(columnsListData as Array<IColumn>), 2000)
+				setTimeout(
+					() => resolve(columnsListData as Array<IColumn>),
+					2000
+				)
 			})
 		},
 		async getColumnsList() {
@@ -39,9 +42,11 @@ export const useCardsList = defineStore("cardsList", {
 	}),
 	getters: {
 		getCards: (state) => {
-			return (code: string) => state.cardsData.filter((card) => card.stage === code)
+			return (code: string) =>
+				state.cardsData.filter((card) => card.stage === code)
 		},
-		lastIdInCardData: (state) => state.cardsData.sort((a, b) => b.id - a.id)[0].id + 1,
+		lastIdInCardData: (state) =>
+			state.cardsData.sort((a, b) => b.id - a.id)[0].id + 1,
 	},
 	actions: {
 		async fetchCardsMock(): Promise<Array<ICard>> {
@@ -63,9 +68,18 @@ export const useCardsList = defineStore("cardsList", {
 			}
 			this.cardsData = items
 		},
-		updateStageInCard({ element, newIndex }: { element: ICard; newIndex: number }) {
-			const cardInd = this.cardsData.findIndex((item) => item.id === element.id)
-			this.cardsData[cardInd].stage = useColumnsList().columnsData[newIndex].code
+		updateStageInCard({
+			element,
+			newIndex,
+		}: {
+			element: ICard
+			newIndex: number
+		}) {
+			const cardInd = this.cardsData.findIndex(
+				(item) => item.id === element.id
+			)
+			this.cardsData[cardInd].stage =
+				useColumnsList().columnsData[newIndex].code
 		},
 		async putCardsList() {
 			return await new Promise((resolve) => {
@@ -85,7 +99,10 @@ export const useProjectsList = defineStore("projectsList", {
 	actions: {
 		async fetchProjectsMock(): Promise<Array<IProject>> {
 			return await new Promise((resolve) => {
-				setTimeout(() => resolve(projectListData as Array<IProject>), 2000)
+				setTimeout(
+					() => resolve(projectListData as Array<IProject>),
+					2000
+				)
 			})
 		},
 		async getProjectsList() {

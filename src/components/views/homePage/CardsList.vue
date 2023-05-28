@@ -1,7 +1,7 @@
 <template>
 	<div class="cards-list-component">
 		<div class="head">
-			<div class="point"></div>
+			<div class="point" />
 			<h2 class="title">{{ name }}</h2>
 			<div class="icons">
 				<app-icon
@@ -10,18 +10,24 @@
 					height="16px"
 					:class="['icon', { 'icon--active': isSortedIconActive }]"
 					@click="sortedCards('up')"
-				></app-icon>
+				/>
 				<app-icon
 					name="arrow-down"
 					width="16px"
 					height="16px"
 					:class="['icon', { 'icon--active': isSortedIconActive }]"
 					@click="sortedCards('down')"
-				></app-icon>
+				/>
 			</div>
 		</div>
 		<div v-if="cards.length >= 1" class="body">
-			<draggableComponent v-model="cards" item-key="id" group="project" class="list" @change="moveCardHandler">
+			<draggableComponent
+				v-model="cards"
+				item-key="id"
+				group="project"
+				class="list"
+				@change="moveCardHandler"
+			>
 				<template #item="{ element }">
 					<app-card
 						:title="element.title"
@@ -33,7 +39,7 @@
 						:element="element"
 						@edit="cardEditHandler"
 						@delete="cardEditHandler"
-					></app-card>
+					/>
 				</template>
 			</draggableComponent>
 		</div>
@@ -44,12 +50,13 @@
 			<button class="btn" @click="isModalVisible = true">Добавить</button>
 		</div>
 		<app-modal
-			v-model:isShow="isModalVisible"
+			:is-show="isModalVisible"
 			:id-card="lastIdCard"
 			:stage="name"
 			:projects-list="projectList"
+			@update:is-show="updateModalVisible"
 			@edit-card="createCardHandler"
-		></app-modal>
+		/>
 	</div>
 </template>
 
@@ -87,10 +94,14 @@ const sortedCards = (sort: string) => {
 		return
 	}
 	isSortedIconActive.value = sort
-	sort === "up" ? cards.value.sort((a, b) => a.score - b.score) : cards.value.sort((a, b) => b.score - a.score)
+	sort === "up"
+		? cards.value.sort((a, b) => a.score - b.score)
+		: cards.value.sort((a, b) => b.score - a.score)
 }
 
 const isModalVisible = ref(false)
+const updateModalVisible = (value: boolean) => (isModalVisible.value = value)
+
 const projectList = useProjectsList().projectsData.map((item) => ({
 	name: item.name,
 	code: item.code,
@@ -112,11 +123,17 @@ const moveCardHandler = ({ added }) => {
 
 const cardEditHandler = (card: ICard, isDeleting?: boolean) => {
 	const newCards = [...cards.value]
-	const indCardInState = cardsStore.cardsData.findIndex((item) => item.id === card.id)
+	const indCardInState = cardsStore.cardsData.findIndex(
+		(item) => item.id === card.id
+	)
 	const indCardInCards = newCards.findIndex((item) => item.id === card.id)
-	isDeleting ? newCards.splice(indCardInCards, 1) : newCards.splice(indCardInCards, 1, reactive(card))
+	isDeleting
+		? newCards.splice(indCardInCards, 1)
+		: newCards.splice(indCardInCards, 1, reactive(card))
 	cardsStore.$patch((state) => {
-		isDeleting ? state.cardsData.splice(indCardInState, 1) : state.cardsData.splice(indCardInState, 1, card)
+		isDeleting
+			? state.cardsData.splice(indCardInState, 1)
+			: state.cardsData.splice(indCardInState, 1, card)
 	})
 	cards.value = newCards
 }

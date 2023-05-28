@@ -3,13 +3,23 @@
 		<div class="head">
 			<h3 class="title">{{ title }}</h3>
 			<div class="icon">
-				<app-icon name="note-edit" width="14px" height="14px" @click="onClickEdit"></app-icon>
+				<app-icon
+					name="note-edit"
+					width="14px"
+					height="14px"
+					@click="onClickEdit"
+				/>
 			</div>
 			<div class="icon">
-				<app-icon name="garbage" width="14px" height="14px" @click="onClickDelete"></app-icon>
+				<app-icon
+					name="garbage"
+					width="14px"
+					height="14px"
+					@click="onClickDelete"
+				/>
 			</div>
 			<div class="icon">
-				<app-icon name="overflow-menu" width="16px" height="16px"></app-icon>
+				<app-icon name="overflow-menu" width="16px" height="16px" />
 			</div>
 		</div>
 		<div class="body">
@@ -21,15 +31,16 @@
 			<span v-if="project" class="label">{{ project }}</span>
 		</div>
 		<app-modal
-			v-model:is-show="isShowModal"
+			:is-show="isShowModal"
 			:id-card="idCard"
 			:projects-list="projectsList"
 			:project="project"
 			:score="score"
 			:title-card="title"
 			:stage="stage"
+			@update:is-show="updateIsShowModal"
 			@edit-card="editModalHandler"
-		></app-modal>
+		/>
 	</div>
 </template>
 
@@ -58,6 +69,8 @@ const props = defineProps<IProps>()
 const emit = defineEmits<IEmits>()
 
 const isShowModal = ref(false)
+
+const updateIsShowModal = (value: boolean) => (isShowModal.value = value)
 
 const onClickEdit = () => (isShowModal.value = true)
 const onClickDelete = () => {

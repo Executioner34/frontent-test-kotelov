@@ -1,6 +1,8 @@
 import { IProps, ICard, IColumn, IProject } from "../types"
 
-export const getItem = (key: string): Array<IProject | ICard | IColumn> | null => {
+export const getItem = (
+	key: string
+): Array<IProject | ICard | IColumn> | null => {
 	const value = localStorage.getItem(key)
 	if (value === null) {
 		return null
@@ -8,7 +10,10 @@ export const getItem = (key: string): Array<IProject | ICard | IColumn> | null =
 	return JSON.parse(value)
 }
 
-export const setItem = (key: string, value: Array<IColumn | ICard | IProject>): void => {
+export const setItem = (
+	key: string,
+	value: Array<IColumn | ICard | IProject>
+): void => {
 	const serializedValue = JSON.stringify(value)
 	localStorage.setItem(key, serializedValue)
 }

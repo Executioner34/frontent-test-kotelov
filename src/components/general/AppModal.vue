@@ -6,21 +6,42 @@
 				<p v-if="stage" class="subtitle">{{ stage }}</p>
 			</template>
 			<div class="row">
-				<label :for="`title-${idCard}`" class="label">Заголовок *:</label>
-				<el-input :id="`title-${idCard}`" v-model.trim="titleModel" name="title"> </el-input>
+				<label :for="`title-${idCard}`" class="label"
+					>Заголовок *:
+				</label>
+				<el-input
+					:id="`title-${idCard}`"
+					v-model.trim="titleModel"
+					name="title"
+				/>
 			</div>
 			<div class="row">
 				<label :for="`project-${idCard}`" class="label">Проект:</label>
-				<el-select :id="`project-${idCard}`" v-model="projectModel" size="large">
-					<el-option v-for="item in projectsList" :key="item.code" :label="item.name" :value="item.code" />
+				<el-select
+					:id="`project-${idCard}`"
+					v-model="projectModel"
+					size="large"
+				>
+					<el-option
+						v-for="item in projectsList"
+						:key="item.code"
+						:label="item.name"
+						:value="item.code"
+					/>
 				</el-select>
 			</div>
 			<div class="row row--number">
 				<label :for="`score-${idCard}`" class="label">Балл *:</label>
-				<el-input :id="`score-${idCard}`" v-model.number="scoreModel" name="title"></el-input>
+				<el-input
+					:id="`score-${idCard}`"
+					v-model.number="scoreModel"
+					name="title"
+				/>
 			</div>
 			<template #footer>
-				<app-button class="btn" @click="closeModal">Добавить</app-button>
+				<app-button class="btn" @click="closeModal"
+					>Добавить
+				</app-button>
 			</template>
 		</el-dialog>
 	</div>
