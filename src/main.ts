@@ -9,4 +9,4 @@ import "./style.scss"
 
 const pinia = createPinia()
 
-createApp(App).use(pinia).use(router).use(ElementPlus).mount("#app")
+createApp(App).use(router).use(pinia).use(ElementPlus).mount("#app")

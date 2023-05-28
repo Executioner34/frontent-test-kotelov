@@ -15,18 +15,19 @@
 <script setup lang="ts">
 import CardsList from "../components/views/homePage/CardsList.vue"
 import { useCardsList, useColumnsList, useProjectsList } from "../store"
-import { computed, onMounted } from "vue"
+import { onMounted, ref } from "vue"
 import AppButton from "../components/general/AppButton.vue"
 
 const columnsState = useColumnsList()
 const cardsState = useCardsList()
 const projectsState = useProjectsList()
 
-onMounted(async () => {
-	await Promise.all([columnsState.getColumnsList(), cardsState.getCardsList(), projectsState.getProjectsList()])
-})
+const columnsData = ref([])
 
-const columnsData = computed(() => columnsState.columnsData)
+onMounted(async () => {
+	await Promise.all([columnsState.getColumnsList(), projectsState.getProjectsList(), cardsState.getCardsList()])
+	columnsData.value = columnsState.columnsData
+})
 
 const saveChanges = async () => {
 	await cardsState.putCardsList()
