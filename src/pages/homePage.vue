@@ -23,12 +23,13 @@ import CardsList from "../components/views/homePage/CardsList.vue"
 import { useCardsList, useColumnsList, useProjectsList } from "../store"
 import { onMounted, ref } from "vue"
 import AppButton from "../components/general/AppButton.vue"
+import { IColumn } from "../types"
 
 const columnsState = useColumnsList()
 const cardsState = useCardsList()
 const projectsState = useProjectsList()
 
-const columnsData = ref([])
+const columnsData = ref([]) as [] | Array<IColumn>
 
 onMounted(async () => {
 	await Promise.all([

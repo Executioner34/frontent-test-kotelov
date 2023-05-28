@@ -108,14 +108,14 @@ const projectList = useProjectsList().projectsData.map((item) => ({
 }))
 const lastIdCard = cardsStore.lastIdInCardData || 1
 
-const createCardHandler = (card) => {
+const createCardHandler = (card: ICard) => {
 	cards.value.push(card)
 	cardsStore.$patch((state) => {
 		state.cardsData.push(card)
 	})
 }
 
-const moveCardHandler = ({ added }) => {
+const moveCardHandler = ({ added }: { element: ICard; newIndex: number }) => {
 	if (added) {
 		cardsStore.updateStageInCard(added)
 	}
